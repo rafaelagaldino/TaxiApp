@@ -21,6 +21,10 @@ class SignUpViewController: UIViewController {
         return label
     }()
     
+    public let emailView: UIView = {
+        return UILabel().label(title: "Email".uppercased())
+    }()
+    
     private lazy var emailContainerView: UIView = {
         let view = UIView().inputContainerView(image: #imageLiteral(resourceName: "ic_mail_outline_white_2x"), textField: emailTextField)
         view.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -31,6 +35,10 @@ class SignUpViewController: UIViewController {
         return UITextField().textField(withPlaceholder: "Email", isSecureTextEntry: false)
     }()
     
+    public let fullNameView: UIView = {
+        return UILabel().label(title: "Name".uppercased())
+    }()
+    
     private lazy var fullNameContainerView: UIView = {
         let view = UIView().inputContainerView(image: #imageLiteral(resourceName: "ic_person_outline_white_2x"), textField: fullNameTextField)
         view.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -39,6 +47,10 @@ class SignUpViewController: UIViewController {
     
     private let fullNameTextField: UITextField = {
         return UITextField().textField(withPlaceholder: "Full Name", isSecureTextEntry: false)
+    }()
+    
+    public let passwordView: UIView = {
+        return UILabel().label(title: "Password".uppercased())
     }()
     
     private lazy var passwordContainerView: UIView = {
@@ -149,22 +161,33 @@ class SignUpViewController: UIViewController {
         titleLabel.anchor(centerX: (view.centerXAnchor, 0),
                           top: (view.safeAreaLayoutGuide.topAnchor, 40))
 
-        let stack = UIStackView(arrangedSubviews: [emailContainerView,
+        let stack = UIStackView(arrangedSubviews: [emailView,
+                                                   emailContainerView,
+                                                   fullNameView,
                                                    fullNameContainerView,
-                                                   passwordContainerView,
-                                                   accountTypeSegmentedControl,
-                                                   signUpButton])
+                                                   passwordView,
+                                                   passwordContainerView])
         stack.axis = .vertical
-        stack.distribution = .fillProportionally
-        stack.spacing = 24
+        stack.distribution = .fill
+        stack.spacing = 5
         view.addSubview(stack)
         stack.anchor(top: (titleLabel.bottomAnchor, 40),
-                     leading: (view.leadingAnchor, 16),
-                     trailing: (view.trailingAnchor, 16))
+                     leading: (view.leadingAnchor, 36),
+                     trailing: (view.trailingAnchor, 36))
+        
+        view.addSubview(accountTypeSegmentedControl)
+        accountTypeSegmentedControl.anchor(top: (stack.bottomAnchor, 28),
+                                           leading: (view.leadingAnchor, 36),
+                                           trailing: (view.trailingAnchor, 36))
+        
+        view.addSubview(signUpButton)
+        signUpButton.anchor(top: (accountTypeSegmentedControl.bottomAnchor, 48),
+                            leading: (view.leadingAnchor, 36),
+                            trailing: (view.trailingAnchor, 36))
         
         view.addSubview(alrealdyHaveAccountButton)
-        alrealdyHaveAccountButton.anchor(centerX: (view.centerXAnchor, 0),
-                                         top: (stack.bottomAnchor, 8))
+        alrealdyHaveAccountButton.anchor(centerX: (signUpButton.centerXAnchor, 0),
+                                         top: (signUpButton.bottomAnchor, 8))
     }
     
     func configureNavigationBar() {
